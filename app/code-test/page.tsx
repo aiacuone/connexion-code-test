@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { GiVintageRobot } from 'react-icons/gi'
 
 const CodeTestPage = () => {
-  const [position, setPosition] = useState([0, 0])
+  const [position, setPosition] = useState([0, 0, 'n'])
 
   const onChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedPosition = [...position]
@@ -50,7 +51,17 @@ const Table = ({ position }: { position: [number, number] }) => {
         style={{ direction: 'ltr', gridAutoFlow: 'rowReverse' }}>
         {gridNumberArray.map(([x, y], index) => {
           const showMarker = position[0] === x && position[1] === y
+
+          // Please note: Ternary operators need to be used with tailwind
           const background = index % 2 === 0 ? 'bg-purple-500' : 'bg-blue-500'
+          const direction =
+            position[2] === 'n'
+              ? 'rotate-0'
+              : position[2] === 'e'
+              ? 'rotate-90'
+              : position[2] === 's'
+              ? 'rotate-180'
+              : 'rotate-270'
 
           return (
             <div
@@ -62,10 +73,9 @@ const Table = ({ position }: { position: [number, number] }) => {
               className={`flex-1 ${background} center relative`}>
               {x} , {y}
               {showMarker && (
-                <div
-                  className="w-1/2 h-1/2 bg-red-500 rounded-full absolute"
-                  style={{ zIndex: 1 }}
-                />
+                <div className={`absolute w-1/2 h-1/2 ${direction}`}>
+                  <GiVintageRobot size="full" />
+                </div>
               )}
             </div>
           )
