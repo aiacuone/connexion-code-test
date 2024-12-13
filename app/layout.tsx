@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Adrian Iacuone: Code Test',
-  description: 'Code Test for Connexion. Created by Adrian Iacuone.',
+  description: 'An application where a robot can move around a table',
 }
 
 export default function RootLayout({
