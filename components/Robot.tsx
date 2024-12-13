@@ -1,7 +1,6 @@
 import { GiVintageRobot } from 'react-icons/gi'
 import { useCodeTestPageContext } from '../app/code-test/page'
-import { directions_enum } from '../lib/types'
-import { capitalizeFirstLetter } from '../lib/utils'
+import { Directions_enum } from '../lib/types'
 
 export const Robot = ({ robotAngle }: { robotAngle: string }) => {
   return (
@@ -23,19 +22,14 @@ const Popover = () => {
   const { isOpen: isFallOverPopoverOpen } = fallOverPopoverDisclosure
 
   const { x, y, f } = position
-  const direction = directions_enum[f]
-  const directionNames: Record<directions_enum, string> = {
-    [directions_enum.n]: 'north',
-    [directions_enum.e]: 'east',
-    [directions_enum.s]: 'south',
-    [directions_enum.w]: 'west',
-  }
-  const directionName = directionNames[direction as directions_enum]
+  const direction = Directions_enum[f]
+
+  const directionName = direction
 
   const showPopover = isReportPopoverOpen || isFallOverPopoverOpen
 
   const popoverText = isReportPopoverOpen
-    ? `I am at ${x}, ${y}, facing ${capitalizeFirstLetter(directionName)}`
+    ? `I am at ${x}, ${y}, facing ${directionName}`
     : isFallOverPopoverOpen
     ? 'I cant move there, I will fall over!'
     : ''

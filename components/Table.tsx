@@ -1,5 +1,5 @@
 import { useCodeTestPageContext } from '../app/code-test/page'
-import { directions_enum } from '../lib/types'
+import { Directions_enum } from '../lib/types'
 import { Robot } from './Robot'
 
 export const Table = () => {
@@ -10,20 +10,19 @@ export const Table = () => {
   ).flat()
 
   return (
-    <div className="w-2/3 h-2/3 rounded-xl overflow-hidden">
+    <div className="w-2/3 h-2/3">
       <div
         className="grid-cols-5 grid-rows-5 flex h-full grid w-full"
         style={{ direction: 'ltr', gridAutoFlow: 'rowReverse' }}>
         {gridArray.map(([x, y], index) => {
           const showRobot = position.x === x && position.y === y
 
-          // Please note: Ternary operators need to be used with tailwind
-          const background = index % 2 === 0 ? 'bg-purple-500' : 'bg-blue-500'
-          const robotAngles: Record<directions_enum, string> = {
-            [directions_enum.n]: '0',
-            [directions_enum.e]: '90',
-            [directions_enum.s]: '180',
-            [directions_enum.w]: '270',
+          const background = index % 2 === 0 ? 'bg-purple-900' : 'bg-purple-600'
+          const robotAngles: Record<Directions_enum, string> = {
+            [Directions_enum.n]: '0',
+            [Directions_enum.e]: '90',
+            [Directions_enum.s]: '180',
+            [Directions_enum.w]: '270',
           }
           const robotAngle = robotAngles[position.f]
 
@@ -32,7 +31,10 @@ export const Table = () => {
               id={`${x}${y}`}
               key={`${index} table position`}
               className={`flex-1 ${background} center relative`}>
-              {x}x , {y}y{showRobot && <Robot robotAngle={robotAngle} />}
+              <p className="opacity-20 font-bold">
+                {x} / {y}
+              </p>
+              {showRobot && <Robot robotAngle={robotAngle} />}
             </div>
           )
         })}

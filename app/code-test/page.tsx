@@ -5,7 +5,7 @@ import { createContext, useContext, Context, useState } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
 import { Position_int } from '../../lib/types'
-import { directions_enum } from '../../lib/types/general'
+import { Directions_enum } from '../../lib/types/general'
 
 interface CodeTestPageContext_int {
   position: Position_int
@@ -19,11 +19,10 @@ let CodeTestPageContext: Context<CodeTestPageContext_int>
 
 // Todo:
 // Make sure you don't need Toast or Popover anymore. If not remove them
-// Look at why type errors are not appearing
 // Look at why imports arent working using index.ts
 
 const CodeTestPage = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0, f: directions_enum.n })
+  const [position, setPosition] = useState({ x: 0, y: 0, f: Directions_enum.n })
   const reportPopoverDisclosure = useDisclosure()
   const fallOverPopoverDisclosure = useDisclosure()
 
@@ -47,9 +46,11 @@ const CodeTestPage = () => {
 
   return (
     <CodeTestPageContext.Provider value={contextDefaultValues}>
-      <div className="center h-full">
-        <Table />
-        <Commands />
+      <div className="h-full">
+        <div className="stack w-full h-full center gap-3">
+          <Table />
+          <Commands />
+        </div>
       </div>
     </CodeTestPageContext.Provider>
   )

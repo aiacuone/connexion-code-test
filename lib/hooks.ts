@@ -5,13 +5,19 @@ export const useDisclosure = () => {
   const onOpen = (isTimedOut = false) => {
     setIsOpen(true)
 
-    if (isTimedOut) setTimeout(() => setIsOpen(false), 3000)
+    const isTimedOutABoolean = typeof isTimedOut === 'boolean'
+
+    if (isTimedOut && isTimedOutABoolean)
+      setTimeout(() => setIsOpen(false), 3000)
   }
   const onClose = () => setIsOpen(false)
+
+  const toggle = () => setIsOpen((prev) => !prev)
 
   return {
     isOpen,
     onOpen,
     onClose,
+    toggle,
   }
 }
