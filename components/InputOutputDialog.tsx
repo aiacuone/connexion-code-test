@@ -28,7 +28,7 @@ export const InputOutputDialog = ({
   readCommands: (commands: Command_int) => void
 }) => {
   const [commands, setCommands] = useState<Command_int>({
-    place: { x: 0, y: 0, f: Directions_enum.n },
+    place: { x: 0, y: 0, f: Directions_enum.North },
     list: [],
   })
   const {
@@ -66,24 +66,27 @@ export const InputOutputDialog = ({
   }
 
   const buttons = [
-    { onClick: () => onAddCommand(Command_enum.left), icon: <FaRotateLeft /> },
+    { onClick: () => onAddCommand(Command_enum.Left), icon: <FaRotateLeft /> },
     {
-      onClick: () => onAddCommand(Command_enum.right),
+      onClick: () => onAddCommand(Command_enum.Right),
       icon: <FaRotateRight />,
     },
     {
-      onClick: () => onAddCommand(Command_enum.move),
-      label: Command_enum.move,
+      onClick: () => onAddCommand(Command_enum.Move),
+      label: Command_enum.Move,
     },
     {
-      onClick: () => onAddCommand(Command_enum.report),
-      label: Command_enum.report,
+      onClick: () => onAddCommand(Command_enum.Report),
+      label: Command_enum.Report,
     },
     { onClick: onReset, label: 'Reset' },
     { onClick: onDelete, label: 'Delete' },
   ]
 
-  const onChangePlace = (value: number, key: keyof Position_int) => {
+  const onChangePlace = (
+    value: number | Directions_enum,
+    key: keyof Position_int
+  ) => {
     setCommands((prev) => ({
       ...prev,
       place: { ...prev.place, [key]: value },
@@ -123,8 +126,10 @@ export const InputOutputDialog = ({
             />
             <Select
               value={commands.place.f}
-              onValueChange={(value) => onChangePlace(value, 'f')}
-              defaultValue={Directions_enum.n}>
+              onValueChange={(value: Directions_enum) =>
+                onChangePlace(value, 'f')
+              }
+              defaultValue={Directions_enum.North}>
               <SelectTrigger className="w-[100px]">
                 <SelectValue />
               </SelectTrigger>

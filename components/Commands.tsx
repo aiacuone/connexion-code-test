@@ -24,18 +24,18 @@ export const Commands = () => {
   const { onOpen: onOpenFallOverPopover, onClose: onCloseFallOverPopover } =
     fallOverPopoverDisclosure
 
-  const getNewDirection = (turn: Command_enum.left | Command_enum.right) => {
+  const getNewDirection = (turn: Command_enum.Left | Command_enum.Right) => {
     const { f: direction } = position
     const directions = [
-      Directions_enum.n,
-      Directions_enum.e,
-      Directions_enum.s,
-      Directions_enum.w,
+      Directions_enum.North,
+      Directions_enum.East,
+      Directions_enum.South,
+      Directions_enum.West,
     ]
 
     const currentIndex = directions.indexOf(direction)
     const newIndex =
-      turn === Command_enum.left ? currentIndex - 1 : currentIndex + 1
+      turn === Command_enum.Left ? currentIndex - 1 : currentIndex + 1
 
     return directions[newIndex < 0 ? 3 : newIndex % 4]
   }
@@ -46,22 +46,22 @@ export const Commands = () => {
   }
 
   const onLeft = () => {
-    updatePosition({ f: getNewDirection(Command_enum.left) })
+    updatePosition({ f: getNewDirection(Command_enum.Left) })
     onMoveOrRotate()
   }
 
   const onRight = () => {
-    updatePosition({ f: getNewDirection(Command_enum.right) })
+    updatePosition({ f: getNewDirection(Command_enum.Right) })
     onMoveOrRotate()
   }
 
   const onMove = () => {
     const { x, y, f } = position
     const move = {
-      n: { x, y: y + 1 },
-      e: { x: x + 1, y },
-      s: { x, y: y - 1 },
-      w: { x: x - 1, y },
+      [Directions_enum.North]: { x, y: y + 1 },
+      [Directions_enum.East]: { x: x + 1, y },
+      [Directions_enum.South]: { x, y: y - 1 },
+      [Directions_enum.West]: { x: x - 1, y },
     }
 
     const newPosition = move[f]
@@ -84,7 +84,10 @@ export const Commands = () => {
     { onClick: onRight, icon: <FaRotateRight /> },
     { onClick: onMove, label: 'Move' },
     { onClick: onReport, label: 'Report' },
-    { onClick: inputOutputDialogDisclosure.onOpen, label: 'Input/Output' },
+    {
+      onClick: () => inputOutputDialogDisclosure.onOpen(),
+      label: 'Input/Output',
+    },
   ]
 
   const readCommands = ({

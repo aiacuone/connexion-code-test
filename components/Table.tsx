@@ -19,10 +19,10 @@ export const Table = () => {
 
           const background = index % 2 === 0 ? 'bg-purple-900' : 'bg-purple-600'
           const robotAngles: Record<Directions_enum, string> = {
-            [Directions_enum.n]: '0',
-            [Directions_enum.e]: '90',
-            [Directions_enum.s]: '180',
-            [Directions_enum.w]: '270',
+            [Directions_enum.North]: '0',
+            [Directions_enum.East]: '90',
+            [Directions_enum.South]: '180',
+            [Directions_enum.West]: '270',
           }
           const robotAngle = robotAngles[position.f]
 

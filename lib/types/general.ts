@@ -1,8 +1,8 @@
 export enum Directions_enum {
-  n = 'North',
-  e = 'East',
-  s = 'South',
-  w = 'West',
+  North = 'North',
+  East = 'East',
+  South = 'South',
+  West = 'West',
 }
 
 export interface Position_int {
@@ -12,11 +12,11 @@ export interface Position_int {
 }
 
 export enum Command_enum {
-  report = 'Report',
-  move = 'Move',
-  left = 'Left',
-  right = 'Right',
-  place = 'Place',
+  Report = 'Report',
+  Move = 'Move',
+  Left = 'Left',
+  Right = 'Right',
+  Place = 'Place',
 }
 
 export interface Command_int {

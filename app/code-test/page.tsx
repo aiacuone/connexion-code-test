@@ -22,7 +22,11 @@ let CodeTestPageContext: Context<CodeTestPageContext_int>
 // Look at why imports arent working using index.ts
 
 const CodeTestPage = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0, f: Directions_enum.n })
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    f: Directions_enum.North,
+  })
   const reportPopoverDisclosure = useDisclosure()
   const fallOverPopoverDisclosure = useDisclosure()
 
