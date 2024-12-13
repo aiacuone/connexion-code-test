@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { GiVintageRobot } from 'react-icons/gi'
 import { Input, Button } from '@/components/ui'
+import { useToast } from '@/hooks/use-toast'
 
 interface Position {
   x: number
@@ -83,6 +84,8 @@ const Commands = ({
   position: Position
   updatePosition: ({ x, y, f }: Partial<Position>) => void
 }) => {
+  const { toast } = useToast()
+
   const getNewDirection = (turn: 'left' | 'right') => {
     const { f: direction } = position
     const directions = ['n', 'e', 's', 'w']
@@ -115,6 +118,7 @@ const Commands = ({
 
     if (isXorYOutOfBounds()) {
       console.log('Out of bounds')
+      toast({ variant: 'destructive', title: 'Out of bounds' })
       return
     }
 
