@@ -1,4 +1,5 @@
 import { useCodeTestPageContext } from '../app/code-test/page'
+import { directions_enum } from '../lib/types'
 import { Robot } from './Robot'
 
 export const Table = () => {
@@ -18,20 +19,17 @@ export const Table = () => {
 
           // Please note: Ternary operators need to be used with tailwind
           const background = index % 2 === 0 ? 'bg-purple-500' : 'bg-blue-500'
-          const robotAngles = {
-            n: '0',
-            e: '90',
-            s: '180',
-            w: '270',
+          const robotAngles: Record<directions_enum, string> = {
+            [directions_enum.n]: '0',
+            [directions_enum.e]: '90',
+            [directions_enum.s]: '180',
+            [directions_enum.w]: '270',
           }
           const robotAngle = robotAngles[position.f]
 
           return (
             <div
               id={`${x}${y}`}
-              onClick={(e) =>
-                console.log({ x, y, id: e.target.id, e, index: e.target.index })
-              }
               key={`${index} table position`}
               className={`flex-1 ${background} center relative`}>
               {x}x , {y}y{showRobot && <Robot robotAngle={robotAngle} />}

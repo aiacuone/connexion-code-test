@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useCodeTestPageContext } from '../app/code-test/page'
+import { directions_enum } from '../lib/types/general'
 
 export const Commands = () => {
   const {
@@ -17,7 +18,13 @@ export const Commands = () => {
 
   const getNewDirection = (turn: 'left' | 'right') => {
     const { f: direction } = position
-    const directions = ['n', 'e', 's', 'w']
+    const directions = [
+      directions_enum.n,
+      directions_enum.e,
+      directions_enum.s,
+      directions_enum.w,
+    ]
+
     const currentIndex = directions.indexOf(direction)
     const newIndex = turn === 'left' ? currentIndex - 1 : currentIndex + 1
 

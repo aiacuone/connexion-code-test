@@ -1,13 +1,21 @@
 'use client'
 
-import { useState } from 'react'
 import { useDisclosure } from '../../lib'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, Context, useState } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
 import { Position_int } from '../../lib/types'
+import { directions_enum } from '../../lib/types/general'
 
-let CodeTestPageContext
+interface CodeTestPageContext_int {
+  position: Position_int
+  setPosition: (position: Position_int) => void
+  updatePosition: (position: Partial<Position_int>) => void
+  reportPopoverDisclosure: ReturnType<typeof useDisclosure>
+  fallOverPopoverDisclosure: ReturnType<typeof useDisclosure>
+}
+
+let CodeTestPageContext: Context<CodeTestPageContext_int>
 
 // Todo:
 // Make sure you don't need Toast or Popover anymore. If not remove them
@@ -15,7 +23,7 @@ let CodeTestPageContext
 // Look at why imports arent working using index.ts
 
 const CodeTestPage = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0, f: 'n' })
+  const [position, setPosition] = useState({ x: 0, y: 0, f: directions_enum.n })
   const reportPopoverDisclosure = useDisclosure()
   const fallOverPopoverDisclosure = useDisclosure()
 
@@ -27,7 +35,7 @@ const CodeTestPage = () => {
     }))
   }
 
-  const contextDefaultValues = {
+  const contextDefaultValues: CodeTestPageContext_int = {
     position,
     setPosition,
     updatePosition,
