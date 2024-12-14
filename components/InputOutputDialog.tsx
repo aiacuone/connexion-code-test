@@ -65,7 +65,10 @@ export const InputOutputDialog = ({
   }
 
   const scrollToBottom = () => {
-    commandEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const commandEndRefElement = commandEndRef.current as unknown as HTMLElement
+    commandEndRefElement.scrollIntoView({
+      behavior: 'smooth',
+    })
   }
 
   const onAddCommand = (
@@ -90,7 +93,6 @@ export const InputOutputDialog = ({
   const buttons = [
     {
       onClick: () => onAddCommand(Command_enum.Left),
-
       icon: <FaArrowLeft />,
     },
     {

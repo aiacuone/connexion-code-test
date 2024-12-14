@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { useCodeTestPageContext } from '../app/code-test/page'
+import { useCodeTestPageContext } from '../app/robot/page'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
 import { useEffect, useCallback } from 'react'

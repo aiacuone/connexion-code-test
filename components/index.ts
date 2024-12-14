@@ -1,3 +1,5 @@
 export * from './Robot'
 export * from './ui'
 export * from './Table'
+export * from './Header'
+export * from './Footer'

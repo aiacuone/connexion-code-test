@@ -1,4 +1,4 @@
-import { useCodeTestPageContext } from '../app/code-test/page'
+import { useCodeTestPageContext } from '../app/robot/page'
 import { Directions_enum } from '../lib/types'
 import { Robot } from './Robot'
 
@@ -17,7 +17,8 @@ export const Table = () => {
         {gridArray.map(([x, y], index) => {
           const showRobot = position.x === x && position.y === y
 
-          const background = index % 2 === 0 ? 'bg-purple-900' : 'bg-purple-600'
+          const background =
+            index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
           const robotAngles: Record<Directions_enum, string> = {
             [Directions_enum.North]: '0',
             [Directions_enum.East]: '90',
@@ -31,8 +32,8 @@ export const Table = () => {
               id={`${x}${y}`}
               key={`${index} table position`}
               className={`flex-1 ${background} center relative`}>
-              <p className="opacity-20 font-bold">
-                {x} / {y}
+              <p className="opacity-20 font-bold text-sm sm:text-lg">
+                {x} - {y}
               </p>
               {showRobot && <Robot robotAngle={robotAngle} />}
             </div>

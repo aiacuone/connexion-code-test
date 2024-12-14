@@ -1,5 +1,5 @@
 import { GiVintageRobot } from 'react-icons/gi'
-import { useCodeTestPageContext } from '../app/code-test/page'
+import { useCodeTestPageContext } from '../app/robot/page'
 import { Directions_enum } from '../lib/types'
 
 export const Robot = ({ robotAngle }: { robotAngle: string }) => {
@@ -37,7 +37,10 @@ const Popover = () => {
   return (
     <>
       {showPopover && (
-        <p className="absolute -top-10 w-auto z-10 bg-white rounded whitespace-nowrap px-3 py-1">
+        <p
+          className={`absolute -top-10 w-auto z-10 ${
+            isReportPopoverOpen ? 'bg-blue-500' : 'bg-red-500'
+          } rounded whitespace-nowrap px-3 py-1`}>
           {popoverText}
         </p>
       )}
