@@ -36,7 +36,5 @@ export const RobotPageTemplate = (props) => {
   )
 }
 
-const useRobotPageContext: () => RobotPageContext_int = () =>
+export const useRobotPageContext: () => RobotPageContext_int = () =>
   useContext(RobotPageContext)
-
-export { RobotPageTemplate, useRobotPageContext }
