@@ -1,7 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { useCodeTestPageContext } from '../app/code-test/page'
-import { FaRotateLeft } from 'react-icons/fa6'
-import { FaRotateRight } from 'react-icons/fa6'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
 import { useEffect, useCallback } from 'react'
@@ -11,6 +9,8 @@ import {
   Command_enum,
   Position_int,
 } from '@/lib/types'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { RiResetLeftFill } from 'react-icons/ri'
 
 export const Commands = () => {
   const {
@@ -90,10 +90,14 @@ export const Commands = () => {
   }, [onOpenReportPopover])
 
   const buttons = [
-    { onClick: onLeft, icon: <FaRotateLeft /> },
-    { onClick: onRight, icon: <FaRotateRight /> },
-    { onClick: onMove, label: 'Move' },
-    { onClick: onReport, label: 'Report' },
+    { onClick: onLeft, icon: <FaArrowLeft /> },
+    { onClick: onRight, icon: <FaArrowRight /> },
+    { onClick: onMove, label: Command_enum.Move },
+    { onClick: onReport, label: Command_enum.Report },
+    {
+      onClick: () => updatePosition({ x: 0, y: 0, f: Directions_enum.North }),
+      icon: <RiResetLeftFill />,
+    },
     {
       onClick: () => inputOutputDialogDisclosure.onOpen(),
       label: 'Input/Output',
@@ -146,7 +150,7 @@ export const Commands = () => {
     <>
       <div className="stack">
         <div className="stack center">
-          <div className="hstack gap-3">
+          <div className="hstack gap-3 flex-wrap center">
             {buttons.map(({ onClick, icon, label }, index) => (
               <Button onClick={onClick} key={`${index} command button`}>
                 {icon ?? icon}

@@ -7,7 +7,7 @@ import {
   SelectGroup,
   SelectLabel,
 } from '@/components/ui/select'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -18,8 +18,10 @@ import {
   Directions_enum,
   Position_int,
 } from '../lib/types'
-import { FaRotateLeft, FaRotateRight } from 'react-icons/fa6'
 import { useToast } from '@/hooks/use-toast'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { RiDeleteBack2Line } from 'react-icons/ri'
+import { RiResetLeftFill } from 'react-icons/ri'
 
 interface InputOutputDialogProps {
   inputOutputDialogDisclosure: ReturnType<typeof useDisclosure>
@@ -31,6 +33,7 @@ export const InputOutputDialog = ({
   readCommands,
 }: InputOutputDialogProps) => {
   const { toast } = useToast()
+  const commandEndRef = useRef(null)
 
   const [commands, setCommands] = useState<Command_int[]>([])
   const {
@@ -38,7 +41,7 @@ export const InputOutputDialog = ({
     toggle: toggleInputOutputDialog,
     onClose: onCloseInputOutputDialog,
   } = inputOutputDialogDisclosure
-  const defaultPlace = {
+  const defaultPlace: Position_int = {
     x: 0,
     y: 0,
     f: Directions_enum.North,
@@ -61,6 +64,10 @@ export const InputOutputDialog = ({
     setPlace(defaultPlace)
   }
 
+  const scrollToBottom = () => {
+    commandEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   const onAddCommand = (
     command: Command_enum,
     place: Position_int | undefined = undefined
@@ -77,13 +84,18 @@ export const InputOutputDialog = ({
     }
 
     setCommands((prev) => [...prev, place ? { command, place } : { command }])
+    scrollToBottom()
   }
 
   const buttons = [
-    { onClick: () => onAddCommand(Command_enum.Left), icon: <FaRotateLeft /> },
+    {
+      onClick: () => onAddCommand(Command_enum.Left),
+
+      icon: <FaArrowLeft />,
+    },
     {
       onClick: () => onAddCommand(Command_enum.Right),
-      icon: <FaRotateRight />,
+      icon: <FaArrowRight />,
     },
     {
       onClick: () => onAddCommand(Command_enum.Report),
@@ -93,8 +105,11 @@ export const InputOutputDialog = ({
       onClick: () => onAddCommand(Command_enum.Move),
       label: Command_enum.Move,
     },
-    { onClick: onDelete, label: 'Delete' },
-    { onClick: onReset, label: 'Reset' },
+    { onClick: onDelete, icon: <RiDeleteBack2Line /> },
+    {
+      onClick: onReset,
+      icon: <RiResetLeftFill />,
+    },
   ]
 
   const onChangePlace = (
@@ -128,61 +143,59 @@ export const InputOutputDialog = ({
     { onClick: onCloseInputOutputDialog, label: 'Close' },
   ]
 
-  const inputs = [
-    {
-      label: 'X',
-      value: place.x,
-      onChange: (newValue: number) => onChangePlace(newValue, 'x'),
-    },
-    {
-      label: 'Y',
-      value: place.y,
-      onChange: (newValue: number) => onChangePlace(newValue, 'y'),
-    },
-  ]
+  const inputs = ['x', 'y']
 
   return (
     <Dialog open={isInputOutputDialogOpen} onOpenChange={onOpenChange}>
       <DialogTitle></DialogTitle>
       <DialogContent className="h-5/6">
-        <div className="stack gap-3">
+        <div className="stack gap-3 overflow-hidden">
           <p className="text-lg font-bold">Input/Output</p>
-          <div className="hstack center bg-gray-100 p-4 rounded gap-2">
-            {inputs.map(({ label, value, onChange }, index) => (
-              <Input
-                key={index}
-                min={0}
-                max={4}
-                type="number"
-                placeholder={label}
-                className="w-[70px]"
-                value={value}
-                onChange={(e) => onChange(Number(e.target.value))}
-              />
-            ))}
-            <Select
-              value={place.f}
-              onValueChange={(value: Directions_enum) =>
-                onChangePlace(value, 'f')
-              }
-              defaultValue={Directions_enum.North}>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Direction</SelectLabel>
-                  {selectOptions.map(({ value, label }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Button onClick={onAddPlace}>Place</Button>
+          <div className="hstack center bg-gray-100 p-4 rounded gap-2 flex-wrap">
+            <div className="hstack gap-2">
+              {inputs.map((key, index) => (
+                <Input
+                  key={index}
+                  min={0}
+                  max={4}
+                  type="number"
+                  placeholder={key.toUpperCase()}
+                  className="w-[60px]"
+                  value={place[key as keyof Position_int]}
+                  onChange={(e) =>
+                    onChangePlace(
+                      Number(e.target.value),
+                      key as keyof Position_int
+                    )
+                  }
+                />
+              ))}
+            </div>
+            <div className="hstack gap-2">
+              <Select
+                value={place.f}
+                onValueChange={(value: Directions_enum) =>
+                  onChangePlace(value, 'f')
+                }
+                defaultValue={Directions_enum.North}>
+                <SelectTrigger className="w-[80px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Direction</SelectLabel>
+                    {selectOptions.map(({ value, label }) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Button onClick={onAddPlace}>Place</Button>
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {buttons.map(({ onClick, label, icon }, index) => {
               return (
                 <Button onClick={onClick} key={`${index} command button`}>
@@ -192,12 +205,15 @@ export const InputOutputDialog = ({
               )
             })}
           </div>
-          <div className="stack gap-2 flex-1">
+          <div className="stack flex-1 overflow-y-scroll hide-scrollbar">
             {commands.map(({ command, place }, index) => (
-              <p key={index}>
+              <p
+                key={index}
+                className={`${index % 2 === 0 ? 'bg-gray-100' : ''}`}>
                 {command} {place && `: ${place.x}, ${place.y}, ${place.f}`}
               </p>
             ))}
+            <div ref={commandEndRef} />
           </div>
           <div className="hstack center gap-2">
             {bottomButtons.map(({ onClick, label }, index) => {
