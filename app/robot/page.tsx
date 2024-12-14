@@ -73,7 +73,7 @@ const CodeTestPage = () => {
   )
 }
 
-export const useCodeTestPageContext: () => CodeTestPageContext_int = () =>
+const useCodeTestPageContext: () => CodeTestPageContext_int = () =>
   useContext(CodeTestPageContext)
 
-export default CodeTestPage
+export { CodeTestPage as default, useCodeTestPageContext }
