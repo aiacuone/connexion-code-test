@@ -20,6 +20,6 @@ export enum Command_enum {
 }
 
 export interface Command_int {
-  place: Position_int
-  list: Command_enum[]
+  command: Command_enum
+  place?: Position_int
 }

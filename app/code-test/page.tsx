@@ -21,12 +21,17 @@ let CodeTestPageContext: Context<CodeTestPageContext_int>
 // Make sure you don't need Toast or Popover anymore. If not remove them
 // Look at why imports arent working using index.ts
 
+//trade offs: Having the state be in the context makes it easier to manage the state across the app. However, it can be harder to debug and understand the state of the app and also makes the app less efficient
+
 const CodeTestPage = () => {
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
     f: Directions_enum.North,
   })
+  const [commands, setCommands] = useState([])
+  const [commandIndex, setCommandIndex] = useState(0)
+
   const reportPopoverDisclosure = useDisclosure()
   const fallOverPopoverDisclosure = useDisclosure()
 
@@ -44,6 +49,10 @@ const CodeTestPage = () => {
     updatePosition,
     reportPopoverDisclosure,
     fallOverPopoverDisclosure,
+    commands,
+    setCommands,
+    commandIndex,
+    setCommandIndex,
   }
 
   CodeTestPageContext = createContext(contextDefaultValues)

@@ -1,14 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { useCodeTestPageContext } from '../app/code-test/page'
-import {
-  Command_enum,
-  Directions_enum,
-  Position_int,
-} from '../lib/types/general'
+import { Command_enum, Directions_enum } from '../lib/types/general'
 import { FaRotateLeft } from 'react-icons/fa6'
 import { FaRotateRight } from 'react-icons/fa6'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
+import { useEffect, useCallback } from 'react'
 
 export const Commands = () => {
   const {
@@ -16,46 +13,54 @@ export const Commands = () => {
     updatePosition,
     reportPopoverDisclosure,
     fallOverPopoverDisclosure,
+    commands,
+    setCommands,
+    commandIndex,
+    setCommandIndex,
   } = useCodeTestPageContext()
   const inputOutputDialogDisclosure = useDisclosure()
+  const isRobotMoving = !!commands.length
 
   const { onOpen: onOpenReportPopover, onClose: onCloseReportPopover } =
     reportPopoverDisclosure
   const { onOpen: onOpenFallOverPopover, onClose: onCloseFallOverPopover } =
     fallOverPopoverDisclosure
 
-  const getNewDirection = (turn: Command_enum.Left | Command_enum.Right) => {
-    const { f: direction } = position
-    const directions = [
-      Directions_enum.North,
-      Directions_enum.East,
-      Directions_enum.South,
-      Directions_enum.West,
-    ]
+  const getNewDirection = useCallback(
+    (turn: Command_enum.Left | Command_enum.Right) => {
+      const { f: direction } = position
+      const directions = [
+        Directions_enum.North,
+        Directions_enum.East,
+        Directions_enum.South,
+        Directions_enum.West,
+      ]
 
-    const currentIndex = directions.indexOf(direction)
-    const newIndex =
-      turn === Command_enum.Left ? currentIndex - 1 : currentIndex + 1
+      const currentIndex = directions.indexOf(direction)
+      const newIndex =
+        turn === Command_enum.Left ? currentIndex - 1 : currentIndex + 1
 
-    return directions[newIndex < 0 ? 3 : newIndex % 4]
-  }
+      return directions[newIndex < 0 ? 3 : newIndex % 4]
+    },
+    [position]
+  )
 
-  const onMoveOrRotate = () => {
+  const onMoveOrRotate = useCallback(() => {
     onCloseReportPopover()
     onCloseFallOverPopover()
-  }
+  }, [onCloseFallOverPopover, onCloseReportPopover])
 
-  const onLeft = () => {
+  const onLeft = useCallback(() => {
     updatePosition({ f: getNewDirection(Command_enum.Left) })
     onMoveOrRotate()
-  }
+  }, [getNewDirection, onMoveOrRotate, updatePosition])
 
-  const onRight = () => {
+  const onRight = useCallback(() => {
     updatePosition({ f: getNewDirection(Command_enum.Right) })
     onMoveOrRotate()
-  }
+  }, [getNewDirection, onMoveOrRotate, updatePosition])
 
-  const onMove = () => {
+  const onMove = useCallback(() => {
     const { x, y, f } = position
     const move = {
       [Directions_enum.North]: { x, y: y + 1 },
@@ -73,11 +78,11 @@ export const Commands = () => {
 
     updatePosition(newPosition)
     onMoveOrRotate()
-  }
+  }, [position, onOpenFallOverPopover, updatePosition, onMoveOrRotate])
 
-  const onReport = ({}) => {
+  const onReport = useCallback(() => {
     onOpenReportPopover(true)
-  }
+  }, [onOpenReportPopover])
 
   const buttons = [
     { onClick: onLeft, icon: <FaRotateLeft /> },
@@ -90,17 +95,45 @@ export const Commands = () => {
     },
   ]
 
-  const readCommands = ({
-    place,
-    list,
-  }: {
-    place: Position_int
-    list: Command_enum[]
-  }) => {
+  const readCommands = (_commands: Command_int[]) => {
     inputOutputDialogDisclosure.onClose()
-
-    console.log({ place, list })
+    setCommandIndex(0)
+    setCommands(_commands)
   }
+
+  useEffect(() => {
+    if (isRobotMoving) {
+      const timer = setTimeout(() => {
+        if (commandIndex < commands.length) {
+          const { command, place } = commands[commandIndex]
+
+          const commandFunctions = {
+            [Command_enum.Left]: onLeft,
+            [Command_enum.Right]: onRight,
+            [Command_enum.Move]: onMove,
+            [Command_enum.Report]: onReport,
+            [Command_enum.Place]: () => updatePosition(place),
+          }
+
+          commandFunctions[command]()
+          setCommandIndex(commandIndex + 1)
+        } else {
+          setCommands([])
+        }
+      }, 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [
+    isRobotMoving,
+    commands,
+    commandIndex,
+    setCommandIndex,
+    setCommands,
+    onLeft,
+    onRight,
+    onMove,
+    onReport,
+  ])
 
   return (
     <>

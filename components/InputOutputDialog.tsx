@@ -19,6 +19,7 @@ import {
   Position_int,
 } from '../lib/types'
 import { FaRotateLeft, FaRotateRight } from 'react-icons/fa6'
+import { useToast } from '@/hooks/use-toast'
 
 export const InputOutputDialog = ({
   inputOutputDialogDisclosure,
@@ -27,15 +28,20 @@ export const InputOutputDialog = ({
   inputOutputDialogDisclosure: ReturnType<typeof useDisclosure>
   readCommands: (commands: Command_int) => void
 }) => {
-  const [commands, setCommands] = useState<Command_int>({
-    place: { x: 0, y: 0, f: Directions_enum.North },
-    list: [],
-  })
+  const { toast } = useToast()
+
+  const [commands, setCommands] = useState<Command_int[]>([])
   const {
     isOpen: isInputOutputDialogOpen,
     toggle: toggleInputOutputDialog,
     onClose: onCloseInputOutputDialog,
   } = inputOutputDialogDisclosure
+  const defaultPlace = {
+    x: 0,
+    y: 0,
+    f: Directions_enum.North,
+  }
+  const [place, setPlace] = useState<Position_int>(defaultPlace)
 
   const onOpenChange = () => toggleInputOutputDialog()
 
@@ -45,24 +51,27 @@ export const InputOutputDialog = ({
   }))
 
   const onDelete = () => {
-    setCommands((prev) => ({
-      ...prev,
-      list: prev.list.slice(0, -1),
-    }))
+    setCommands((prev) => prev.slice(0, -1))
   }
 
   const onReset = () => {
-    setCommands((prev) => ({
-      ...prev,
-      list: [],
-    }))
+    setCommands([])
+    setPlace(defaultPlace)
   }
 
-  const onAddCommand = (command: Command_enum) => {
-    setCommands((prev) => ({
-      ...prev,
-      list: [...prev.list, command],
-    }))
+  const onAddCommand = (command: Command_int, place: Position_int) => {
+    const isThisTheFirstCommand = commands.length === 0
+    const isCommandAPlace = command === Command_enum.Place
+
+    if (isThisTheFirstCommand && !isCommandAPlace) {
+      return toast({
+        title: 'Error',
+        description: 'First command must be place',
+        variant: 'destructive',
+      })
+    }
+
+    setCommands((prev) => [...prev, place ? { command, place } : { command }])
   }
 
   const buttons = [
@@ -72,31 +81,52 @@ export const InputOutputDialog = ({
       icon: <FaRotateRight />,
     },
     {
-      onClick: () => onAddCommand(Command_enum.Move),
-      label: Command_enum.Move,
-    },
-    {
       onClick: () => onAddCommand(Command_enum.Report),
       label: Command_enum.Report,
     },
-    { onClick: onReset, label: 'Reset' },
+    {
+      onClick: () => onAddCommand(Command_enum.Move),
+      label: Command_enum.Move,
+    },
     { onClick: onDelete, label: 'Delete' },
+    { onClick: onReset, label: 'Reset' },
   ]
 
   const onChangePlace = (
     value: number | Directions_enum,
     key: keyof Position_int
   ) => {
-    setCommands((prev) => ({
-      ...prev,
-      place: { ...prev.place, [key]: value },
-    }))
+    setPlace((prev) => ({ ...prev, [key]: value }))
   }
 
   const onReadCommands = () => {
+    const areThereAnyCommands = commands.length > 0
+
+    if (!areThereAnyCommands) {
+      return toast({
+        title: 'Error',
+        description: 'Please add commands',
+        variant: 'destructive',
+      })
+    }
     readCommands(commands)
     onCloseInputOutputDialog()
   }
+
+  const onAddPlace = () => {
+    onAddCommand(Command_enum.Place, place)
+    setPlace(defaultPlace)
+  }
+
+  const bottomButtons = [
+    { onClick: onReadCommands, label: 'Move Robot' },
+    { onClick: onCloseInputOutputDialog, label: 'Close' },
+  ]
+
+  const inputs = [
+    { label: 'X', value: place.x, onChange: (e) => onChangePlace(e, 'x') },
+    { label: 'Y', value: place.y, onChange: (e) => onChangePlace(e, 'y') },
+  ]
 
   return (
     <Dialog open={isInputOutputDialogOpen} onOpenChange={onOpenChange}>
@@ -105,27 +135,20 @@ export const InputOutputDialog = ({
         <div className="stack gap-3">
           <p className="text-lg font-bold">Input/Output</p>
           <div className="hstack center bg-gray-100 p-4 rounded gap-2">
-            <p>Place</p>
-            <Input
-              type="number"
-              placeholder="X"
-              className="w-[70px]"
-              defaultValue={0}
-              min={0}
-              max={4}
-              onChange={(e) => onChangePlace(Number(e.target.value), 'x')}
-            />
-            <Input
-              type="number"
-              placeholder="Y"
-              defaultValue={0}
-              min={0}
-              max={4}
-              className="w-[70px]"
-              onChange={(e) => onChangePlace(Number(e.target.value), 'y')}
-            />
+            {inputs.map(({ label, value, onChange }, index) => (
+              <Input
+                key={index}
+                min={0}
+                max={4}
+                type="number"
+                placeholder={label}
+                className="w-[70px]"
+                value={value}
+                onChange={(e) => onChange(Number(e.target.value))}
+              />
+            ))}
             <Select
-              value={commands.place.f}
+              value={place.f}
               onValueChange={(value: Directions_enum) =>
                 onChangePlace(value, 'f')
               }
@@ -144,6 +167,7 @@ export const InputOutputDialog = ({
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <Button onClick={onAddPlace}>Place</Button>
           </div>
           <div className="grid grid-cols-3 gap-3">
             {buttons.map(({ onClick, label, icon }, index) => {
@@ -156,19 +180,21 @@ export const InputOutputDialog = ({
             })}
           </div>
           <div className="stack gap-2 flex-1">
-            <div className="hstack gap-2">
-              <p className="font-bold">Place:</p>
-              {Object.values(commands.place).map((value, index) => {
-                return <p key={index}>{value}</p>
-              })}
-            </div>
-            {commands.list.map((command, index) => (
-              <p key={index}>{command}</p>
+            {commands.map(({ command, place }, index) => (
+              <p key={index}>
+                {command} {place && `: ${place.x}, ${place.y}, ${place.f}`}
+              </p>
             ))}
           </div>
-          <Button onClick={onReadCommands} className="self-center">
-            Read Commands
-          </Button>
+          <div className="hstack center gap-2">
+            {bottomButtons.map(({ onClick, label }, index) => {
+              return (
+                <Button onClick={onClick} key={`${index} bottom button`}>
+                  {label}
+                </Button>
+              )
+            })}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
