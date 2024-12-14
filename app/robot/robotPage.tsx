@@ -1,7 +1,7 @@
 'use client'
 
 import { useDisclosure } from '../../lib'
-import { createContext, useContext, Context } from 'react'
+import { createContext, useContext, Context, FC } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
 import { Position_int } from '../../lib/types'
@@ -21,7 +21,7 @@ interface RobotPageContext_int {
 
 let RobotPageContext: Context<RobotPageContext_int>
 
-export const RobotPageTemplate = (props) => {
+export const RobotPageTemplate: FC<RobotPageContext_int> = (props) => {
   RobotPageContext = createContext(props)
 
   return (

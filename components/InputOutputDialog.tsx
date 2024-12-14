@@ -7,7 +7,7 @@ import {
   SelectGroup,
   SelectLabel,
 } from '@/components/ui/select'
-import { useState, useRef } from 'react'
+import { useState, useRef, FC } from 'react'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -28,10 +28,10 @@ interface InputOutputDialogProps {
   readCommands: (commands: Command_int[]) => void
 }
 
-export const InputOutputDialog = ({
+export const InputOutputDialog: FC<InputOutputDialogProps> = ({
   inputOutputDialogDisclosure,
   readCommands,
-}: InputOutputDialogProps) => {
+}) => {
   const { toast } = useToast()
   const commandEndRef = useRef(null)
 

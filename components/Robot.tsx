@@ -1,8 +1,12 @@
 import { GiVintageRobot } from 'react-icons/gi'
 import { Directions_enum } from '../lib/types'
 import { useRobotPageContext } from '../app/robot/robotPage'
+import { FC } from 'react'
+interface RobotProps {
+  robotAngle: string
+}
 
-export const Robot = ({ robotAngle }: { robotAngle: string }) => {
+export const Robot: FC<RobotProps> = ({ robotAngle }) => {
   return (
     <div className="absolute w-1/2 h-1/2">
       <div className="relative center">
