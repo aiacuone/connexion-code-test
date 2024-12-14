@@ -32,7 +32,7 @@ export const Table = () => {
               id={`${x}${y}`}
               key={`${index} table position`}
               className={`flex-1 ${background} center relative`}>
-              <p className="opacity-20 font-bold text-sm sm:text-lg">
+              <p className="opacity-20 text-sm sm:text-lg">
                 {x} - {y}
               </p>
               {showRobot && <Robot robotAngle={robotAngle} />}

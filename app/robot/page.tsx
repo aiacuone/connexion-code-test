@@ -1,7 +1,7 @@
 'use client'
 
 import { useDisclosure } from '../../lib'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Position_int } from '../../lib/types'
 import { Directions_enum, Command_int } from '../../lib/types'
 import { RobotPageTemplate } from './robotPage'
@@ -20,31 +20,39 @@ const RobotPage = () => {
   })
   const [commands, setCommands] = useState<Command_int[]>([])
   const [commandIndex, setCommandIndex] = useState(0)
+  const isRobotMoving = !!commands.length
 
   const reportPopoverDisclosure = useDisclosure()
   const fallOverPopoverDisclosure = useDisclosure()
 
-  const updatePosition = ({ x, y, f }: Partial<Position_int>) => {
+  const updatePosition = useCallback(({ x, y, f }: Partial<Position_int>) => {
     setPosition((prev) => ({
       x: x ?? prev.x,
       y: y ?? prev.y,
       f: f ?? prev.f,
     }))
-  }
+  }, [])
 
-  const props = {
-    position,
-    setPosition,
-    commands,
-    setCommands,
-    commandIndex,
-    setCommandIndex,
-    reportPopoverDisclosure,
-    fallOverPopoverDisclosure,
-    updatePosition,
-  }
+  const onStopRobotMoving = useCallback(() => {
+    setCommands([])
+    setCommandIndex(0)
+  }, [])
 
-  return <RobotPageTemplate {...props} />
+  return (
+    <RobotPageTemplate
+      position={position}
+      setPosition={setPosition}
+      commands={commands}
+      setCommands={setCommands}
+      commandIndex={commandIndex}
+      setCommandIndex={setCommandIndex}
+      reportPopoverDisclosure={reportPopoverDisclosure}
+      fallOverPopoverDisclosure={fallOverPopoverDisclosure}
+      updatePosition={updatePosition}
+      isRobotMoving={isRobotMoving}
+      onStopRobotMoving={onStopRobotMoving}
+    />
+  )
 }
 
 export default RobotPage

@@ -17,6 +17,8 @@ interface RobotPageContext_int {
   setCommands: (commands: Command_int[]) => void
   commandIndex: number
   setCommandIndex: (index: number) => void
+  isRobotMoving: boolean
+  onStopRobotMoving: () => void
 }
 
 let RobotPageContext: Context<RobotPageContext_int>
