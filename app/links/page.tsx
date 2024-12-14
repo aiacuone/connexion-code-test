@@ -5,7 +5,7 @@ import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export const LinksPage = () => {
+const LinksPage = () => {
   const links = [
     {
       label: 'aiacuone@gmail.com',
