@@ -5,7 +5,7 @@ import { createContext, useContext, Context, useState } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
 import { Position_int } from '../../lib/types'
-import { Directions_enum } from '../../lib/types/general'
+import { Directions_enum, Command_int } from '../../lib/types'
 
 interface CodeTestPageContext_int {
   position: Position_int
@@ -13,6 +13,10 @@ interface CodeTestPageContext_int {
   updatePosition: (position: Partial<Position_int>) => void
   reportPopoverDisclosure: ReturnType<typeof useDisclosure>
   fallOverPopoverDisclosure: ReturnType<typeof useDisclosure>
+  commands: Command_int[]
+  setCommands: (commands: Command_int[]) => void
+  commandIndex: number
+  setCommandIndex: (index: number) => void
 }
 
 let CodeTestPageContext: Context<CodeTestPageContext_int>
@@ -29,7 +33,7 @@ const CodeTestPage = () => {
     y: 0,
     f: Directions_enum.North,
   })
-  const [commands, setCommands] = useState([])
+  const [commands, setCommands] = useState<Command_int[]>([])
   const [commandIndex, setCommandIndex] = useState(0)
 
   const reportPopoverDisclosure = useDisclosure()
@@ -69,6 +73,7 @@ const CodeTestPage = () => {
   )
 }
 
-export const useCodeTestPageContext = () => useContext(CodeTestPageContext)
+export const useCodeTestPageContext: () => CodeTestPageContext_int = () =>
+  useContext(CodeTestPageContext)
 
 export default CodeTestPage

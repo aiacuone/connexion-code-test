@@ -21,13 +21,15 @@ import {
 import { FaRotateLeft, FaRotateRight } from 'react-icons/fa6'
 import { useToast } from '@/hooks/use-toast'
 
+interface InputOutputDialogProps {
+  inputOutputDialogDisclosure: ReturnType<typeof useDisclosure>
+  readCommands: (commands: Command_int[]) => void
+}
+
 export const InputOutputDialog = ({
   inputOutputDialogDisclosure,
   readCommands,
-}: {
-  inputOutputDialogDisclosure: ReturnType<typeof useDisclosure>
-  readCommands: (commands: Command_int) => void
-}) => {
+}: InputOutputDialogProps) => {
   const { toast } = useToast()
 
   const [commands, setCommands] = useState<Command_int[]>([])
@@ -59,7 +61,10 @@ export const InputOutputDialog = ({
     setPlace(defaultPlace)
   }
 
-  const onAddCommand = (command: Command_int, place: Position_int) => {
+  const onAddCommand = (
+    command: Command_enum,
+    place: Position_int | undefined = undefined
+  ) => {
     const isThisTheFirstCommand = commands.length === 0
     const isCommandAPlace = command === Command_enum.Place
 
@@ -124,8 +129,16 @@ export const InputOutputDialog = ({
   ]
 
   const inputs = [
-    { label: 'X', value: place.x, onChange: (e) => onChangePlace(e, 'x') },
-    { label: 'Y', value: place.y, onChange: (e) => onChangePlace(e, 'y') },
+    {
+      label: 'X',
+      value: place.x,
+      onChange: (newValue: number) => onChangePlace(newValue, 'x'),
+    },
+    {
+      label: 'Y',
+      value: place.y,
+      onChange: (newValue: number) => onChangePlace(newValue, 'y'),
+    },
   ]
 
   return (

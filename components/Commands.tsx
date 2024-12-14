@@ -1,11 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { useCodeTestPageContext } from '../app/code-test/page'
-import { Command_enum, Directions_enum } from '../lib/types/general'
 import { FaRotateLeft } from 'react-icons/fa6'
 import { FaRotateRight } from 'react-icons/fa6'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
 import { useEffect, useCallback } from 'react'
+import {
+  Command_int,
+  Directions_enum,
+  Command_enum,
+  Position_int,
+} from '@/lib/types'
 
 export const Commands = () => {
   const {
@@ -112,7 +117,8 @@ export const Commands = () => {
             [Command_enum.Right]: onRight,
             [Command_enum.Move]: onMove,
             [Command_enum.Report]: onReport,
-            [Command_enum.Place]: () => updatePosition(place),
+            [Command_enum.Place]: () =>
+              updatePosition(place as Partial<Position_int>),
           }
 
           commandFunctions[command]()
@@ -133,6 +139,7 @@ export const Commands = () => {
     onRight,
     onMove,
     onReport,
+    updatePosition,
   ])
 
   return (
