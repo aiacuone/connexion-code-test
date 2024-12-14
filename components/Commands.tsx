@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { useCodeTestPageContext } from '../app/robot/page'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import {
   Command_int,
   Directions_enum,
@@ -11,6 +10,7 @@ import {
 } from '@/lib/types'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { RiResetLeftFill } from 'react-icons/ri'
+import { useRobotPageContext } from '../app/robot/robotPage'
 
 export const Commands = () => {
   const {
@@ -22,9 +22,10 @@ export const Commands = () => {
     setCommands,
     commandIndex,
     setCommandIndex,
-  } = useCodeTestPageContext()
+    isRobotMoving,
+    onStopRobotMoving,
+  } = useRobotPageContext()
   const inputOutputDialogDisclosure = useDisclosure()
-  const isRobotMoving = !!commands.length
 
   const { onOpen: onOpenReportPopover, onClose: onCloseReportPopover } =
     reportPopoverDisclosure
@@ -89,26 +90,38 @@ export const Commands = () => {
     onOpenReportPopover(true)
   }, [onOpenReportPopover])
 
-  const buttons = [
-    { onClick: onLeft, icon: <FaArrowLeft /> },
-    { onClick: onRight, icon: <FaArrowRight /> },
-    { onClick: onMove, label: Command_enum.Move },
-    { onClick: onReport, label: Command_enum.Report },
-    {
-      onClick: () => updatePosition({ x: 0, y: 0, f: Directions_enum.North }),
-      icon: <RiResetLeftFill />,
-    },
-    {
-      onClick: () => inputOutputDialogDisclosure.onOpen(),
-      label: 'Input/Output',
-    },
-  ]
+  const onReset = useCallback(() => {
+    if (isRobotMoving) onStopRobotMoving()
+    updatePosition({ x: 0, y: 0, f: Directions_enum.North })
+  }, [isRobotMoving, onStopRobotMoving, updatePosition])
 
-  const readCommands = (_commands: Command_int[]) => {
-    inputOutputDialogDisclosure.onClose()
-    setCommandIndex(0)
-    setCommands(_commands)
-  }
+  const buttons = useMemo(
+    () => [
+      { onClick: onLeft, icon: <FaArrowLeft /> },
+      { onClick: onRight, icon: <FaArrowRight /> },
+      { onClick: onMove, label: Command_enum.Move },
+      { onClick: onReport, label: Command_enum.Report },
+      {
+        onClick: onReset,
+        icon: <RiResetLeftFill />,
+        isDisabledWhenRobotIsMoving: false,
+      },
+      {
+        onClick: () => inputOutputDialogDisclosure.onOpen(),
+        label: 'Input/Output',
+      },
+    ],
+    [onLeft, onRight, onMove, onReport, onReset, inputOutputDialogDisclosure]
+  )
+
+  const readCommands = useCallback(
+    (_commands: Command_int[]) => {
+      inputOutputDialogDisclosure.onClose()
+      setCommandIndex(0)
+      setCommands(_commands)
+    },
+    [inputOutputDialogDisclosure, setCommandIndex, setCommands]
+  )
 
   useEffect(() => {
     if (isRobotMoving) {
@@ -151,12 +164,20 @@ export const Commands = () => {
       <div className="stack">
         <div className="stack center">
           <div className="hstack gap-3 flex-wrap center">
-            {buttons.map(({ onClick, icon, label }, index) => (
-              <Button onClick={onClick} key={`${index} command button`}>
-                {icon ?? icon}
-                {label ?? label}
-              </Button>
-            ))}
+            {buttons.map(
+              (
+                { onClick, icon, label, isDisabledWhenRobotIsMoving = true },
+                index
+              ) => (
+                <Button
+                  onClick={onClick}
+                  key={`${index} command button`}
+                  disabled={isDisabledWhenRobotIsMoving && isRobotMoving}>
+                  {icon ?? icon}
+                  {label ?? label}
+                </Button>
+              )
+            )}
           </div>
         </div>
       </div>

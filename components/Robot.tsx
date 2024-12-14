@@ -1,8 +1,12 @@
 import { GiVintageRobot } from 'react-icons/gi'
-import { useCodeTestPageContext } from '../app/robot/page'
 import { Directions_enum } from '../lib/types'
+import { useRobotPageContext } from '../app/robot/robotPage'
+import { FC } from 'react'
+interface RobotProps {
+  robotAngle: string
+}
 
-export const Robot = ({ robotAngle }: { robotAngle: string }) => {
+export const Robot: FC<RobotProps> = ({ robotAngle }) => {
   return (
     <div className="absolute w-1/2 h-1/2">
       <div className="relative center">
@@ -17,7 +21,7 @@ export const Robot = ({ robotAngle }: { robotAngle: string }) => {
 
 const Popover = () => {
   const { position, reportPopoverDisclosure, fallOverPopoverDisclosure } =
-    useCodeTestPageContext()
+    useRobotPageContext()
   const { isOpen: isReportPopoverOpen } = reportPopoverDisclosure
   const { isOpen: isFallOverPopoverOpen } = fallOverPopoverDisclosure
 

@@ -1,9 +1,9 @@
-import { useCodeTestPageContext } from '../app/robot/page'
 import { Directions_enum } from '../lib/types'
 import { Robot } from './Robot'
+import { useRobotPageContext } from '../app/robot/robotPage'
 
 export const Table = () => {
-  const { position } = useCodeTestPageContext()
+  const { position } = useRobotPageContext()
 
   const gridArray = Array.from({ length: 5 }, (_, y) =>
     Array.from({ length: 5 }, (_, x) => [x, 4 - y])
@@ -32,7 +32,7 @@ export const Table = () => {
               id={`${x}${y}`}
               key={`${index} table position`}
               className={`flex-1 ${background} center relative`}>
-              <p className="opacity-20 font-bold text-sm sm:text-lg">
+              <p className="opacity-20 text-sm sm:text-lg">
                 {x} - {y}
               </p>
               {showRobot && <Robot robotAngle={robotAngle} />}
