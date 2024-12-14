@@ -42,8 +42,8 @@ export const InputOutputDialog: FC<InputOutputDialogProps> = ({
     onClose: onCloseInputOutputDialog,
   } = inputOutputDialogDisclosure
   const defaultPlace: Position_int = {
-    x: 0,
-    y: 0,
+    x: '',
+    y: '',
     f: Directions_enum.North,
   }
   const [place, setPlace] = useState<Position_int>(defaultPlace)
@@ -136,6 +136,15 @@ export const InputOutputDialog: FC<InputOutputDialogProps> = ({
   }
 
   const onAddPlace = () => {
+    const isThereBothXAndY = place.x !== '' && place.y !== ''
+
+    if (!isThereBothXAndY)
+      return toast({
+        title: 'Error',
+        description: 'Please select both an x and a y value',
+        variant: 'destructive',
+      })
+
     onAddCommand(Command_enum.Place, place)
     setPlace(defaultPlace)
   }
