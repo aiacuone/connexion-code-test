@@ -10,7 +10,7 @@ export const Table = () => {
   ).flat()
 
   return (
-    <div className="w-5/6 max-w-[600px]" style={{ aspectRatio: '1' }}>
+    <div className="w-5/6 max-w-[450px]" style={{ aspectRatio: '1' }}>
       <div
         className="grid-cols-5 grid-rows-5 flex h-full grid w-full"
         style={{ direction: 'ltr', gridAutoFlow: 'rowReverse' }}>
