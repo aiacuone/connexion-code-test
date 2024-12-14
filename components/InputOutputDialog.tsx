@@ -136,15 +136,6 @@ export const InputOutputDialog: FC<InputOutputDialogProps> = ({
   }
 
   const onAddPlace = () => {
-    const isThereBothXAndY = place.x !== '' && place.y !== ''
-
-    if (!isThereBothXAndY)
-      return toast({
-        title: 'Error',
-        description: 'Please select both an x and a y value',
-        variant: 'destructive',
-      })
-
     onAddCommand(Command_enum.Place, place)
     setPlace(defaultPlace)
   }
