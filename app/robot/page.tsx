@@ -1,25 +1,10 @@
 'use client'
 
 import { useDisclosure } from '../../lib'
-import { createContext, useContext, Context, useState } from 'react'
-import { Table } from '@/components/Table'
-import { Commands } from '@/components/Commands'
+import { useState } from 'react'
 import { Position_int } from '../../lib/types'
 import { Directions_enum, Command_int } from '../../lib/types'
-
-interface CodeTestPageContext_int {
-  position: Position_int
-  setPosition: (position: Position_int) => void
-  updatePosition: (position: Partial<Position_int>) => void
-  reportPopoverDisclosure: ReturnType<typeof useDisclosure>
-  fallOverPopoverDisclosure: ReturnType<typeof useDisclosure>
-  commands: Command_int[]
-  setCommands: (commands: Command_int[]) => void
-  commandIndex: number
-  setCommandIndex: (index: number) => void
-}
-
-let CodeTestPageContext: Context<CodeTestPageContext_int>
+import { RobotPageTemplate } from './robotPage'
 
 // Todo:
 // Make sure you don't need Toast or Popover anymore. If not remove them
@@ -27,7 +12,7 @@ let CodeTestPageContext: Context<CodeTestPageContext_int>
 
 //trade offs: Having the state be in the context makes it easier to manage the state across the app. However, it can be harder to debug and understand the state of the app and also makes the app less efficient
 
-const CodeTestPage = () => {
+const RobotPage = () => {
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
@@ -47,33 +32,19 @@ const CodeTestPage = () => {
     }))
   }
 
-  const contextDefaultValues: CodeTestPageContext_int = {
+  const props = {
     position,
     setPosition,
-    updatePosition,
-    reportPopoverDisclosure,
-    fallOverPopoverDisclosure,
     commands,
     setCommands,
     commandIndex,
     setCommandIndex,
+    reportPopoverDisclosure,
+    fallOverPopoverDisclosure,
+    updatePosition,
   }
 
-  CodeTestPageContext = createContext(contextDefaultValues)
-
-  return (
-    <CodeTestPageContext.Provider value={contextDefaultValues}>
-      <div className="h-full">
-        <div className="stack w-full h-full center gap-3">
-          <Table />
-          <Commands />
-        </div>
-      </div>
-    </CodeTestPageContext.Provider>
-  )
+  return <RobotPageTemplate {...props} />
 }
 
-const useCodeTestPageContext: () => CodeTestPageContext_int = () =>
-  useContext(CodeTestPageContext)
-
-export { CodeTestPage as default, useCodeTestPageContext }
+export default RobotPage

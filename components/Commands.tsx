@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { useCodeTestPageContext } from '../app/robot/page'
 import { useDisclosure } from '../lib'
 import { InputOutputDialog } from './InputOutputDialog'
 import { useEffect, useCallback } from 'react'
@@ -11,6 +10,7 @@ import {
 } from '@/lib/types'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { RiResetLeftFill } from 'react-icons/ri'
+import { useRobotPageContext } from '../app/robot/robotPage'
 
 export const Commands = () => {
   const {
@@ -22,7 +22,7 @@ export const Commands = () => {
     setCommands,
     commandIndex,
     setCommandIndex,
-  } = useCodeTestPageContext()
+  } = useRobotPageContext()
   const inputOutputDialogDisclosure = useDisclosure()
   const isRobotMoving = !!commands.length
 

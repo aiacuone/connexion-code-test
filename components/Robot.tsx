@@ -1,6 +1,6 @@
 import { GiVintageRobot } from 'react-icons/gi'
-import { useCodeTestPageContext } from '../app/robot/page'
 import { Directions_enum } from '../lib/types'
+import { useRobotPageContext } from '../app/robot/robotPage'
 
 export const Robot = ({ robotAngle }: { robotAngle: string }) => {
   return (
@@ -17,7 +17,7 @@ export const Robot = ({ robotAngle }: { robotAngle: string }) => {
 
 const Popover = () => {
   const { position, reportPopoverDisclosure, fallOverPopoverDisclosure } =
-    useCodeTestPageContext()
+    useRobotPageContext()
   const { isOpen: isReportPopoverOpen } = reportPopoverDisclosure
   const { isOpen: isFallOverPopoverOpen } = fallOverPopoverDisclosure
 
