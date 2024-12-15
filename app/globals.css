@@ -89,3 +89,11 @@ body {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
+
+.container {
+  @apply bg-white;
+  @apply p-4;
+  @apply rounded-xl;
+  @apply bg-opacity-50;
+  @apply backdrop-blur-sm;
+}

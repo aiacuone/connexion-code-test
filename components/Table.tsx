@@ -18,7 +18,8 @@ export const Table = () => {
           const showRobot = position.x === x && position.y === y
 
           const background =
-            index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
+            index % 2 === 0 ? 'bg-neutral-500' : 'bg-neutral-600'
+
           const robotAngles: Record<Directions_enum, string> = {
             [Directions_enum.North]: '0',
             [Directions_enum.East]: '90',
@@ -27,12 +28,22 @@ export const Table = () => {
           }
           const robotAngle = robotAngles[position.f]
 
+          const rounded =
+            index === 0
+              ? 'rounded-tl-xl'
+              : index === 4
+              ? 'rounded-tr-xl'
+              : index === 20
+              ? 'rounded-bl-xl'
+              : index === 24
+              ? 'rounded-br-xl'
+              : ''
           return (
             <div
               id={`${x}${y}`}
               key={`${index} table position`}
-              className={`flex-1 ${background} center relative`}>
-              <p className="opacity-20 text-sm sm:text-lg">
+              className={`flex-1 ${background} ${rounded} center relative`}>
+              <p className="opacity-50 text-sm sm:text-lg absolute bottom-2">
                 {x} - {y}
               </p>
               {showRobot && <Robot robotAngle={robotAngle} />}

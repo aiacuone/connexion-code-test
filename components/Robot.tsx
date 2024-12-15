@@ -8,7 +8,7 @@ interface RobotProps {
 
 export const Robot: FC<RobotProps> = ({ robotAngle }) => {
   return (
-    <div className="absolute w-1/2 h-1/2">
+    <div className="absolute w-1/2 h-1/2 top-1 sm:top-3">
       <div className="relative center">
         <div style={{ transform: `rotate(${robotAngle}deg)` }}>
           <GiVintageRobot size="full" />
@@ -42,8 +42,8 @@ const Popover = () => {
     <>
       {showPopover && (
         <p
-          className={`absolute -top-10 w-auto z-10 ${
-            isReportPopoverOpen ? 'bg-blue-500' : 'bg-red-500'
+          className={`absolute -top-12 w-auto ${
+            isReportPopoverOpen ? 'bg-white' : 'bg-red-500'
           } rounded whitespace-nowrap px-3 py-1`}>
           {popoverText}
         </p>

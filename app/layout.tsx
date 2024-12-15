@@ -29,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="h-[100dvh] stack">
+        <div
+          className="h-[100dvh] stack "
+          style={{ backgroundImage: 'url(/background.jpg)' }}>
           <Header />
           <div className="flex-1 p-2">{children}</div>
           <Footer />

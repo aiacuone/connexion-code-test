@@ -36,7 +36,7 @@ const LinksPage = () => {
   ]
   return (
     <div className="h-full center">
-      <div className="stack gap-3">
+      <div className="stack gap-3 container">
         <p>Feel free to reach out to me on any of the following platforms</p>
         <div className="stack gap-3">
           {links.map(({ label, icon, href, subLabel }) => (
