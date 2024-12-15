@@ -5,7 +5,7 @@ import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-const LinksPage = () => {
+const ContactPage = () => {
   const links = [
     {
       label: 'aiacuone@gmail.com',
@@ -18,34 +18,34 @@ const LinksPage = () => {
       href: 'tel:0494184811',
     },
     {
-      label: 'linkedin.com/in/adrian-iacuone/',
+      label: 'Linkedin',
       icon: <FaLinkedin />,
       href: 'http://linkedin.com/in/adrian-iacuone/',
     },
     {
-      label: 'github.com/aiacuone',
+      label: 'GitHub',
       icon: <FaGithub />,
       href: 'http://github.com/aiacuone',
     },
     {
-      label: 'github.com/aiacuone/connexion-code-test',
+      label: 'GitHub (This Code Test)',
       icon: <FaGithub />,
       href: 'https://github.com/aiacuone/connexion-code-test',
-      subLabel: 'This code test GitHub link',
     },
   ]
   return (
     <div className="h-full center">
       <div className="stack gap-3 container">
-        <p>Feel free to reach out to me on any of the following platforms</p>
-        <div className="stack gap-3">
-          {links.map(({ label, icon, href, subLabel }) => (
-            <div key={label} className="hstack gap-3 items-center">
+        <p>Feel free to reach out to me on any of the following platforms:</p>
+        <div className="stack gap-3 pl-8">
+          {links.map(({ label, icon, href }, index) => (
+            <div
+              key={`${label} ${index}`}
+              className="hstack gap-3 items-center">
               <Link href={href} target="_blank">
                 <Button size="sm">{icon}</Button>
               </Link>
               <p>{label}</p>
-              {subLabel && `(${subLabel})`}
             </div>
           ))}
         </div>
@@ -54,4 +54,4 @@ const LinksPage = () => {
   )
 }
 
-export default LinksPage
+export default ContactPage

@@ -4,7 +4,7 @@ export const Header = () => {
   const links = [
     { href: '/', label: 'HOME' },
     { href: '/robot', label: 'ROBOT' },
-    { href: '/links', label: 'LINKS' },
+    { href: '/contact', label: 'CONTACT' },
   ]
 
   return (

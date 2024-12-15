@@ -1,4 +1,3 @@
-import { Directions_enum } from '../lib/types'
 import { Robot } from './Robot'
 import { useRobotPageContext } from '../app/robot/robotPage'
 
@@ -20,14 +19,6 @@ export const Table = () => {
           const background =
             index % 2 === 0 ? 'bg-neutral-500' : 'bg-neutral-600'
 
-          const robotAngles: Record<Directions_enum, string> = {
-            [Directions_enum.North]: '0',
-            [Directions_enum.East]: '90',
-            [Directions_enum.South]: '180',
-            [Directions_enum.West]: '270',
-          }
-          const robotAngle = robotAngles[position.f]
-
           const rounded =
             index === 0
               ? 'rounded-tl-xl'
@@ -46,7 +37,7 @@ export const Table = () => {
               <p className="opacity-50 text-sm sm:text-lg absolute bottom-2">
                 {x} - {y}
               </p>
-              {showRobot && <Robot robotAngle={robotAngle} />}
+              {showRobot && <Robot />}
             </div>
           )
         })}
