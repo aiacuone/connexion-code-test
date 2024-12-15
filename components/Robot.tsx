@@ -55,7 +55,9 @@ const Popover = () => {
         <p
           className={`absolute -top-12 w-auto ${
             isReportPopoverOpen ? 'bg-white' : 'bg-red-500'
-          } rounded whitespace-nowrap px-3 py-1`}>
+          } rounded whitespace-nowrap px-3 py-1 ${x === 0 ? '-left-4' : ''} ${
+            x === 4 ? '-right-4' : ''
+          }`}>
           {popoverText}
         </p>
       )}
