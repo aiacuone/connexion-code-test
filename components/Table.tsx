@@ -9,15 +9,16 @@ export const Table = () => {
   ).flat()
 
   return (
-    <div className="w-full max-w-[450px]" style={{ aspectRatio: '1' }}>
+    <div
+      className="w-full max-w-[450px] box-shadow"
+      style={{ aspectRatio: '1' }}>
       <div
         className="grid-cols-5 grid-rows-5 flex h-full grid w-full"
         style={{ direction: 'ltr', gridAutoFlow: 'rowReverse' }}>
         {gridArray.map(([x, y], index) => {
           const showRobot = position.x === x && position.y === y
 
-          const background =
-            index % 2 === 0 ? 'bg-neutral-500' : 'bg-neutral-600'
+          const background = index % 2 === 0 ? 'bg-cyan-700' : 'bg-cyan-800'
 
           const rounded =
             index === 0

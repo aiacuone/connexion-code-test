@@ -96,4 +96,9 @@ body {
   @apply rounded-xl;
   @apply bg-opacity-50;
   @apply backdrop-blur-sm;
+  @apply box-shadow;
+}
+
+.box-shadow {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }

@@ -163,7 +163,7 @@ export const Commands = () => {
     <>
       <div className="stack">
         <div className="stack center">
-          <div className="hstack gap-3 flex-wrap center p-2 bg-white bg-opacity-10 rounded-lg">
+          <div className="hstack gap-3 flex-wrap center p-2 bg-white bg-opacity-10 rounded-lg box-shadow">
             {buttons.map(
               (
                 { onClick, icon, label, isDisabledWhenRobotIsMoving = true },
