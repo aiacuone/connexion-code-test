@@ -16,7 +16,7 @@ const RobotPage = () => {
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
-    f: Directions_enum.North,
+    f: Directions_enum.South,
   })
   const [commands, setCommands] = useState<Command_int[]>([])
   const [commandIndex, setCommandIndex] = useState(0)

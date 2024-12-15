@@ -44,7 +44,7 @@ export const InputOutputDialog: FC<InputOutputDialogProps> = ({
   const defaultPlace: Position_int = {
     x: 0,
     y: 0,
-    f: Directions_enum.North,
+    f: Directions_enum.South,
   }
   const [place, setPlace] = useState<Position_int>(defaultPlace)
 

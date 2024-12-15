@@ -44,7 +44,7 @@ export const Commands = () => {
 
       const currentIndex = directions.indexOf(direction)
       const newIndex =
-        turn === Command_enum.Left ? currentIndex - 1 : currentIndex + 1
+        turn === Command_enum.Left ? currentIndex + 1 : currentIndex - 1
 
       return directions[newIndex < 0 ? 3 : newIndex % 4]
     },
@@ -69,9 +69,9 @@ export const Commands = () => {
   const onMove = useCallback(() => {
     const { x, y, f } = position
     const move = {
-      [Directions_enum.North]: { x, y: y + 1 },
+      [Directions_enum.North]: { x, y: y - 1 },
       [Directions_enum.East]: { x: x + 1, y },
-      [Directions_enum.South]: { x, y: y - 1 },
+      [Directions_enum.South]: { x, y: y + 1 },
       [Directions_enum.West]: { x: x - 1, y },
     }
 
@@ -92,7 +92,7 @@ export const Commands = () => {
 
   const onReset = useCallback(() => {
     if (isRobotMoving) onStopRobotMoving()
-    updatePosition({ x: 0, y: 0, f: Directions_enum.North })
+    updatePosition({ x: 0, y: 0, f: Directions_enum.South })
   }, [isRobotMoving, onStopRobotMoving, updatePosition])
 
   const buttons = useMemo(
@@ -163,7 +163,7 @@ export const Commands = () => {
     <>
       <div className="stack">
         <div className="stack center">
-          <div className="hstack gap-3 flex-wrap center">
+          <div className="hstack gap-3 flex-wrap center p-2 bg-white bg-opacity-10 rounded-lg">
             {buttons.map(
               (
                 { onClick, icon, label, isDisabledWhenRobotIsMoving = true },

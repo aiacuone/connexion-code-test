@@ -2,6 +2,7 @@ import { GiVintageRobot } from 'react-icons/gi'
 import { Directions_enum } from '../lib/types'
 import { useRobotPageContext } from '../app/robot/robotPage'
 import { FC } from 'react'
+import { FaCaretDown } from 'react-icons/fa'
 interface RobotProps {
   robotAngle: string
 }
@@ -10,17 +11,22 @@ export const Robot: FC<RobotProps> = () => {
   const { position } = useRobotPageContext()
 
   const robotAngles: Record<Directions_enum, string> = {
-    [Directions_enum.North]: '0',
+    [Directions_enum.North]: '180',
     [Directions_enum.East]: '90',
-    [Directions_enum.South]: '180',
+    [Directions_enum.South]: '0',
     [Directions_enum.West]: '270',
   }
   const robotAngle = robotAngles[position.f]
   return (
     <div className="absolute w-1/2 h-1/2 top-1 sm:top-3">
       <div className="relative center">
-        <div style={{ transform: `rotate(${robotAngle}deg)` }}>
+        <div
+          style={{ transform: `rotate(${robotAngle}deg)` }}
+          className="center">
           <GiVintageRobot size="full" />
+          <div className="absolute -bottom-3">
+            <FaCaretDown />
+          </div>
         </div>
         <Popover />
       </div>
