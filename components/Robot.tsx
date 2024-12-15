@@ -1,13 +1,9 @@
 import { GiVintageRobot } from 'react-icons/gi'
 import { Directions_enum } from '../lib/types'
 import { useRobotPageContext } from '../app/robot/robotPage'
-import { FC } from 'react'
 import { FaCaretDown } from 'react-icons/fa'
-interface RobotProps {
-  robotAngle: string
-}
 
-export const Robot: FC<RobotProps> = () => {
+export const Robot = () => {
   const { position } = useRobotPageContext()
 
   const robotAngles: Record<Directions_enum, string> = {
