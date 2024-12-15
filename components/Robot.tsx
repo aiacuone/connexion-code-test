@@ -19,7 +19,7 @@ export const Robot = () => {
         <div
           style={{ transform: `rotate(${robotAngle}deg)` }}
           className="center">
-          <GiVintageRobot size="full" />
+          <GiVintageRobot size="100%" />
           <div className="absolute -bottom-3">
             <FaCaretDown />
           </div>
@@ -44,7 +44,7 @@ const Popover = () => {
   const showPopover = isReportPopoverOpen || isFallOverPopoverOpen
 
   const popoverText = isReportPopoverOpen
-    ? `I am at ${x}, ${y}, facing ${directionName}`
+    ? `I am at x:${x} y:${y} facing ${directionName}`
     : isFallOverPopoverOpen
     ? 'I cant move there, I will fall over!'
     : ''

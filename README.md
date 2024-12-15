@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Intro
 
-## Getting Started
+Thank you for the opportunity!
 
-First, run the development server:
+The 3 options to input commands were:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- File
+- Standard Input
+- UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I chose to implement the UI option, therefore this is no test data to exercise the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Instructions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Run Application Locally
 
-## Learn More
+- Clone the repository
+- Run `npm install` in the terminal to install dependencies
+- Run `npm run dev` in the terminal
 
-To learn more about Next.js, take a look at the following resources:
+#### Production Version
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You can view and use the application live [here](https://adrian-iacuone-connexion-test.netlify.app/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Play Area
 
-## Deploy on Vercel
+- Navigate to the robot page using the header link
+- The robot page by default acts as a paly area, it was not part of the requirements but it was a part of my development process so I kept it as a play area.
+- Feel free to use the buttons to move the robot around the play area.
+- Take note of what happens when the robot reaches the edge of the play area.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Input/Output
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Navigate to the robot page using the header link
+- Click on the input/output button under the table to open the input/output modal
+- Input a place command first, add all the desired additional commands
+- Click the 'move robot' button to execute the commands
+- Observe the robots movements in the table
