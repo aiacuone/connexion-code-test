@@ -1,11 +1,11 @@
 'use client'
 
 import { useDisclosure } from '../../lib'
-import { createContext, useContext, Context, FC } from 'react'
+import { createContext, useContext, Context } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
-import { Position_int } from '../../lib/types'
-import { Command_int } from '../../lib/types'
+import { Position_int, Command_int, Directions_enum } from '../../lib/types'
+import { useState, useCallback } from 'react'
 
 interface RobotPageContext_int {
   position: Position_int
@@ -23,7 +23,46 @@ interface RobotPageContext_int {
 
 let RobotPageContext: Context<RobotPageContext_int>
 
-export const RobotPageTemplate: FC<RobotPageContext_int> = (props) => {
+export const RobotPage = () => {
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    f: Directions_enum.South,
+  })
+  const [commands, setCommands] = useState<Command_int[]>([])
+  const [commandIndex, setCommandIndex] = useState(0)
+  const isRobotMoving = !!commands.length
+
+  const reportPopoverDisclosure = useDisclosure()
+  const fallOverPopoverDisclosure = useDisclosure()
+
+  const updatePosition = useCallback(({ x, y, f }: Partial<Position_int>) => {
+    setPosition((prev) => ({
+      x: x ?? prev.x,
+      y: y ?? prev.y,
+      f: f ?? prev.f,
+    }))
+  }, [])
+
+  const onStopRobotMoving = useCallback(() => {
+    setCommands([])
+    setCommandIndex(0)
+  }, [])
+
+  const props: RobotPageContext_int = {
+    position,
+    setPosition,
+    updatePosition,
+    reportPopoverDisclosure,
+    fallOverPopoverDisclosure,
+    commands,
+    setCommands,
+    commandIndex,
+    setCommandIndex,
+    isRobotMoving,
+    onStopRobotMoving,
+  }
+
   RobotPageContext = createContext(props)
 
   return (
