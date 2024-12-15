@@ -25,14 +25,23 @@ You can view and use the application live [here](https://adrian-iacuone-connexio
 #### Play Area
 
 - Navigate to the robot page using the header link
-- The robot page by default acts as a paly area, it was not part of the requirements but it was a part of my development process so I kept it as a play area.
-- Feel free to use the buttons to move the robot around the play area.
-- Take note of what happens when the robot reaches the edge of the play area.
+- The robot page by default acts as a play area, it was not part of the requirements but it was a part of my development process
+- Feel free to use the buttons to move the robot around on the table.
+- When the robot is commanded to move off the table, a popover message will render to indicate that the robot cannot move in that direction
+- When the robot is commanded to `Report`, a popover message will render with the `X`,`Y` and `F` of the robot
 
 #### Input/Output
 
-- Navigate to the robot page using the header link
-- Click on the input/output button under the table to open the input/output modal
-- Input a place command first, add all the desired additional commands
-- Click the 'move robot' button to execute the commands
-- Observe the robots movements in the table
+- Navigate to the robot page using the header link or `Go to Robot` button on the home page
+- Click on the `Input/Output` button under the table to open the `Input/Output` modal
+- Input a `Place` command first,
+- Use the `Move`, `Left`, `Right` and `Report` buttons to input commands
+- Use the `Backspace` and `Reset` buttons to clear commands if needed
+- Click the `Move Robot` button to execute the commands
+- The modal will close, you will then be able to observe the robots movements in the table
+
+#### Robot Movement
+
+- The robot will make a move on the table in 1 second intervals
+- The robot will not move off the table if a command would result in it falling off the table, and a popover message will render when this happens
+- When the report command is executed, the robot will announce or render a popover message with the `X`,`Y` and `F` of the robot

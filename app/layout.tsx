@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div
-          className="h-[100dvh] stack "
+          className="h-[100dvh] stack overflow-hidden"
           style={{ backgroundImage: 'url(/background.jpg)' }}>
           <Header />
           <div className="flex-1 p-2">{children}</div>

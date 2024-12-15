@@ -36,11 +36,10 @@ const ContactPage = () => {
   return (
     <div className="h-full center">
       <div className="stack gap-3 container">
-        <p>Feel free to reach out to me on any of the following platforms:</p>
+        <p>
+          <b>Adrian Iacuone</b>, Fullstack Developer
+        </p>
         <div className="stack gap-3 pl-8">
-          <p>
-            <b>Adrian Iacuone</b>, Fullstack Developer
-          </p>
           {links.map(({ label, icon, href }, index) => (
             <div
               key={`${label} ${index}`}
