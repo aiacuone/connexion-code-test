@@ -44,5 +44,6 @@ You can view and use the application live [here](https://adrian-iacuone-connexio
 #### Robot Movement
 
 - The robot will make a move on the table in 1 second intervals
-- The robot will not move off the table if a command would result in it falling off the table, and a popover message will render when this happens
+- The robot will not move off the table, if a command would result in it falling off the table, and a popover message will render when this happens
 - When the report command is executed, the robot will announce or render a popover message with the `X`,`Y` and `F` of the robot
+- The direction of the robot is indicated by a small arrow under the robot
