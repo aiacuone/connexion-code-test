@@ -8,7 +8,7 @@ The 3 options to input commands were:
 - Standard Input
 - UI
 
-I chose to implement the UI option, therefore this is no test data to exercise the application.
+I chose to implement the UI option, therefore there is no test data to exercise the application.
 
 ## Instructions
 
@@ -16,7 +16,8 @@ I chose to implement the UI option, therefore this is no test data to exercise t
 
 - Clone the repository
 - Run `npm install` in the terminal to install dependencies
-- Run `npm run dev` in the terminal
+- Run `npm run dev` in the terminal to run the application locally
+- open http://localhost:3000 in your browser to view the application
 
 #### Production Version
 
@@ -35,7 +36,7 @@ You can view and use the application live [here](https://adrian-iacuone-connexio
 - Navigate to the robot page using the header link or `Go to Robot` button on the home page
 - Click on the `Input/Output` button under the table to open the `Input/Output` modal
 - Input a `Place` command first,
-- Use the `Move`, `Left`, `Right` and `Report` buttons to input commands
+- Use the `Move`, `Left`, `Right` and `Report` buttons to input commands or an additional `Place` command
 - Use the `Backspace` and `Reset` buttons to clear commands if needed
 - Click the `Move Robot` button to execute the commands
 - The modal will close, you will then be able to observe the robots movements in the table

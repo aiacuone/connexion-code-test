@@ -1,12 +1,17 @@
+import { useMemo } from 'react'
 import { Robot } from './Robot'
 import { useRobotPageContext } from '../app/robot/robotPage'
 
 export const Table = () => {
   const { position } = useRobotPageContext()
 
-  const gridArray = Array.from({ length: 5 }, (_, y) =>
-    Array.from({ length: 5 }, (_, x) => [x, 4 - y])
-  ).flat()
+  const gridArray = useMemo(
+    () =>
+      Array.from({ length: 5 }, (_, y) =>
+        Array.from({ length: 5 }, (_, x) => [x, 4 - y])
+      ).flat(),
+    []
+  )
 
   return (
     <div

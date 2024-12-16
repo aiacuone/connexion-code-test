@@ -5,7 +5,7 @@ import { createContext, useContext, Context } from 'react'
 import { Table } from '@/components/Table'
 import { Commands } from '@/components/Commands'
 import { Position_int, Command_int, Directions_enum } from '../../lib/types'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 
 interface RobotPageContext_int {
   position: Position_int
@@ -49,19 +49,31 @@ export const RobotPage = () => {
     setCommandIndex(0)
   }, [])
 
-  const props: RobotPageContext_int = {
-    position,
-    setPosition,
-    updatePosition,
-    reportPopoverDisclosure,
-    fallOverPopoverDisclosure,
-    commands,
-    setCommands,
-    commandIndex,
-    setCommandIndex,
-    isRobotMoving,
-    onStopRobotMoving,
-  }
+  const props: RobotPageContext_int = useMemo(
+    () => ({
+      position,
+      setPosition,
+      updatePosition,
+      reportPopoverDisclosure,
+      fallOverPopoverDisclosure,
+      commands,
+      setCommands,
+      commandIndex,
+      setCommandIndex,
+      isRobotMoving,
+      onStopRobotMoving,
+    }),
+    [
+      commandIndex,
+      commands,
+      fallOverPopoverDisclosure,
+      isRobotMoving,
+      onStopRobotMoving,
+      position,
+      reportPopoverDisclosure,
+      updatePosition,
+    ]
+  )
 
   RobotPageContext = createContext(props)
 
